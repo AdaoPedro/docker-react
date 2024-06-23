@@ -5,4 +5,17 @@ before_install:
   - docker build -t adaopedro/docker-react -f Dockerfile.dev .
 script:
   - docker run -e CI=true adaopedro/docker-react npm run test -- --coverage
-  - echo "Scripts executed successfully!!"
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-north-1"
+  app: "docker"
+  env: "Docker-env"
+  bucket_name: "elasticbeanstalk-eu-north-1-767397944722"
+  # bucket_path: "docker"
+  on:
+    branch: main
+  access_key_id:
+    secrure: "$AWS_ACCESS_KEY_ID"
+  secret_access_key:
+    secure: "$AWS_SECRET_ACCESS_KEY"
+  
